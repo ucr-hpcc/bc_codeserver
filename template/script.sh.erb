@@ -20,8 +20,12 @@ export PASSWORD="$password"
 # Print compute node.
 echo "$(date): Running on compute node ${compute_node}:$port"
 
+module load <%= context.extra_modules %>
+
 # VSCode complains that system git is too old.
 module load <%= context.modules %>
+
+module list
 
 CPP_FILE="<%= working_dir.to_s %>/.vscode/c_cpp_properties.json"
 

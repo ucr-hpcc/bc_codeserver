@@ -15,19 +15,37 @@ attributes:
     value: "8"
     min: 1
     id: 'num_mem'
-  num_days:
-    widget: "number_field"
-    label: "Runtime in Days"
-    value: 1
-    min: 1
-    max: 7
+  extra_modules:
+    widget: "text_field"
+    label: "Additional modules"
+    pattern: "[a-zA-Z0-9/.\\-+_ ]*"
+    value: ""
+    help: |
+      Additional modules to load when loading the notebook, separated by a space.<br/>
+      eg. 'boost/1.80.1 cuda/11.8 vmd/1.9.3'
+  runtime:
+    widget: "text_field"
+    label: "Job runtime"
+    pattern: "[0-9:-]*"
+    value: "2-00:00:00"
+    help: |
+      In the format of DD-HH:MM:SS. Eg. 2 days, 13 hours, 37 minutes, 42 seconds would be "2-13:37:42".<br/>
+      Max runtime is determined by the queue, see <a href="https://hpcc.ucr.edu/manuals/hpc_cluster/queue/" target="_blank">Queue Policies</a> for more details.
   partition:
     widget: select
     label: "Partition"
     options:
       - "epyc"
+      - "short"
+      - "highmem"
       - "intel"
       - "batch"
+      - "gpu"
+  extra_slurm:
+    widget: "text_field"
+    label: "Additional Slurm Arguments"
+    value: ""
+    help: "Additional arguments to pass to slurm. eg '--gres=gpu:1' will be needed if running on the GPU partition."
   working_dir:
     label: "Working Directory"
     data-filepicker: true
@@ -39,5 +57,7 @@ form:
   - working_dir
   - num_cores
   - num_mem
-  - num_days
+  - extra_modules
+  - runtime
   - partition
+  - extra_slurm
